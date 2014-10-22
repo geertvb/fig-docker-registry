@@ -1,0 +1,23 @@
+registry:
+  image: registry
+  links:
+   - redis
+  ports:
+   - "5000:5000"
+  volumes:
+   - ./registry/config:/registry-config
+   - ./registry/index:/registry-index
+   - ./registry/data:/registry-data
+  environment:
+   - LOGLEVEL=warn
+   - DOCKER_REGISTRY_CONFIG=/registry-config/config.yml
+   - STORAGE_PATH=/registry-data
+   - SEARCH_BACKEND=sqlalchemy
+   - SQLALCHEMY_INDEX_DATABASE=sqlite:////registry-index/docker-registry.db
+   - MIRROR_SOURCE=https://registry-1.docker.io
+   - MIRROR_SOURCE_INDEX=https://index.docker.io
+   - MIRROR_TAGS_CACHE_TTL=172800
+redis:
+  image: redis
+  volumes:
+   - ./redis/data:/data
