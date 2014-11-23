@@ -1,3 +1,9 @@
+nginx:
+  build: nginx/.
+  links:
+   - registry
+  ports:
+   - "8080:8080"
 registry:
   image: registry
   links:
